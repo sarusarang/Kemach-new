@@ -348,6 +348,23 @@ function CategoryPage({ categoryKey }) {
 
 
 
+    // Render No Products UI
+    const renderNoProducts = (showBackHome = true, title = "No Products Found", message = "We couldn't find any products in this category at the moment.") => (
+        <div className="col-12 text-center py-5">
+            <div className="d-flex flex-column align-items-center justify-content-center" data-aos="fade-up">
+                <i className="fa-solid fa-box-open fa-4x mb-3 text-secondary" style={{ opacity: 0.5 }}></i>
+                <h3 className="fw-bold mb-2 text-secondary">{title}</h3>
+                <p className="text-muted mb-4">{message}</p>
+                {showBackHome && (
+                    <Link to="/" className="btn btn-primary px-4 py-2 rounded-pill shadow-sm" style={{ backgroundColor: '#c3191c', border: 'none' }}>
+                        <i className="fa-solid fa-home me-2"></i> Back to Home
+                    </Link>
+                )}
+            </div>
+        </div>
+    );
+
+
     // Render Standard Layout (products + optional attachments)
     const renderStandardLayout = () => (
         <>
@@ -374,10 +391,12 @@ function CategoryPage({ categoryKey }) {
                             <div className="row row2 gx-4 gx-lg-3 row-cols-1 row-cols-sm-2 row-cols-xl-4 justify-content-center">
                                 {isLoading || error ? (
                                     <LoadingSpinner />
-                                ) : (
+                                ) : productData.length > 0 ? (
                                     productData.map((item, index) =>
                                         renderProductCard(item, index)
                                     )
+                                ) : (
+                                    renderNoProducts(true)
                                 )}
                             </div>
 
@@ -405,21 +424,25 @@ function CategoryPage({ categoryKey }) {
 
                             <div>
 
-                                <Carousel responsive={responsive} itemClass="h-100 d-flex">
+                                {attachmentLoading || attachmentError ? (
 
-                                    {attachmentLoading || attachmentError ? (
+                                    <LoadingSpinner />
 
-                                        <LoadingSpinner />
+                                ) : productAttachments.length > 0 ? (
 
-                                    ) : (
+                                    <Carousel responsive={responsive} itemClass="h-100 d-flex">
 
-                                        productAttachments.map((item, index) =>
+                                        {productAttachments.map((item, index) =>
                                             renderAttachmentCard(item, index)
-                                        )
+                                        )}
 
-                                    )}
+                                    </Carousel>
 
-                                </Carousel>
+                                ) : (
+
+                                    renderNoProducts(false, "No Attachments Found", "We couldn't find any attachments for this category.")
+
+                                )}
 
                             </div>
 
@@ -460,13 +483,11 @@ function CategoryPage({ categoryKey }) {
                         <div className="row row2 gx-4 gx-lg-3 row-cols-1 row-cols-sm-2 row-cols-xl-4 justify-content-center py-5">
 
                             {isLoading || error ? (
-
                                 <LoadingSpinner />
-
-                            ) : (
-
+                            ) : productData.length > 0 ? (
                                 productData.map((item, index) => renderProductCard(item, index))
-
+                            ) : (
+                                renderNoProducts()
                             )}
 
                         </div>
@@ -485,54 +506,72 @@ function CategoryPage({ categoryKey }) {
 
 
     // Render Multi-Section Layout (multiple carousels)
-    const renderMultiSectionLayout = () => (
+    const renderMultiSectionLayout = () => {
+        // Check if there are any products across all sections
+        const hasAnyProducts = sectionData && Object.values(sectionData).some(arr => arr && arr.length > 0);
 
-        <main className="container" id="ForkLiftD">
-
-            <section className="fork-s1">
-
-                <div className="row row1">
-                    <h1>{config.title}</h1>
-                    {config.description && <p>{config.description}</p>}
-                </div>
-
-
-                {config.sections.map((section, idx) => (
-
-                    <React.Fragment key={idx}>
-
-                        <div className="rock-seperation">
-                            <h4 className="text-center fw-bold">{section.title}</h4>
+        if (!isLoading && !error && !hasAnyProducts) {
+            return (
+                <main className="container" id="ForkLiftD">
+                    <section className="fork-s1">
+                        <div className="row row1">
+                            <h1>{config.title}</h1>
+                            {config.description && <p>{config.description}</p>}
                         </div>
+                        <div className="row">
+                            {renderNoProducts(true)}
+                        </div>
+                    </section>
+                </main>
+            );
+        }
 
-                        <div className={idx === 0 ? "pt-3 p-5" : "p-5 pt-3"}>
+        return (
+            <main className="container" id="ForkLiftD">
 
-                            <Carousel responsive={responsive}>
+                <section className="fork-s1">
+
+                    <div className="row row1">
+                        <h1>{config.title}</h1>
+                        {config.description && <p>{config.description}</p>}
+                    </div>
+
+
+                    {config.sections.map((section, idx) => (
+
+                        <React.Fragment key={idx}>
+
+                            <div className="rock-seperation">
+                                <h4 className="text-center fw-bold">{section.title}</h4>
+                            </div>
+
+                            <div className={idx === 0 ? "pt-3 p-5" : "p-5 pt-3"}>
 
                                 {isLoading || error ? (
                                     <LoadingSpinner />
 
                                 ) : sectionData[section.filterValue] &&
                                     sectionData[section.filterValue].length > 0 ? (
-                                    sectionData[section.filterValue].map((item, index) =>
-                                        renderCarouselProductCard(item, index)
-                                    )
+                                    <Carousel responsive={responsive} itemClass="h-100 d-flex">
+                                        {sectionData[section.filterValue].map((item, index) =>
+                                            renderCarouselProductCard(item, index)
+                                        )}
+                                    </Carousel>
                                 ) : (
-                                    <div>No products available</div>
+                                    renderNoProducts(false)
                                 )}
-                            </Carousel>
 
-                        </div>
+                            </div>
 
-                    </React.Fragment>
+                        </React.Fragment>
 
-                ))}
+                    ))}
 
-            </section>
+                </section>
 
-        </main>
-
-    );
+            </main>
+        );
+    };
 
 
 
