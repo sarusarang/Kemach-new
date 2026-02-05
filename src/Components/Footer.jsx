@@ -77,7 +77,7 @@ function Footer() {
                             <li><a href='https://in.pinterest.com/kemachequipments/' ><i className="fa-brands fa-pinterest"></i></a></li>
                         </ul>
                         <div class="d-flex justify-content-center text-white align-items-center flex-column" >
-                            <p class="text-center mt-2">© 2024 Kemach. All Rights Reserved</p>
+                            <p class="text-center mt-2">© {new Date().getFullYear()} Kemach All Rights Reserved</p>
                             <p class="text-center "> <Link to={"/terms"} class=" text-white">Terms & Conditions</Link><span> I </span><Link to={"/policy"} class=" text-white">Privacy Policy</Link></p>
                         </div>
                         </div>

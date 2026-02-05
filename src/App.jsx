@@ -10,12 +10,7 @@ const Footer = lazy(() => import('./Components/Footer'))
 const Header = lazy(() => import('./Components/Header'))
 const Contact = lazy(() => import('./Pages/ContactUs'))
 const Locator = lazy(() => import('./Pages/Locator'))
-const Skid = lazy(() => import('./Pages/Skid'))
-const Mini = lazy(() => import('./Pages/Mini'))
-const BackHoe = lazy(() => import('./Pages/BackHoe'))
-const Compressors = lazy(() => import('./Pages/Electric'))
-const DrillsBits = lazy(() => import('./Pages/DrillsBits'))
-const RockBeaker = lazy(() => import('./Pages/RockBeaker'))
+const CategoryPage = lazy(() => import('./Pages/CategoryPage'))
 const Enquiry = lazy(() => import('./Pages/Enquiry'))
 const Service = lazy(() => import('./Pages/Service'))
 const SingleProduct = lazy(() => import('./Pages/SingleProduct'))
@@ -54,21 +49,32 @@ function App() {
 
           <Route path="/" element={<Landing />} />
 
+
+          {/* Categories */}
+          <Route path="/skid" element={<CategoryPage categoryKey="skid" />} />
+
+          <Route path="/mini" element={<CategoryPage categoryKey="mini" />} />
+
+          <Route path="/compressors" element={<CategoryPage categoryKey="compressors" />} />
+
+          <Route path="/backhoe" element={<CategoryPage categoryKey="backhoe" />} />
+
+          <Route path="/drills" element={<CategoryPage categoryKey="drills" />} />
+
+          <Route path="/rock" element={<CategoryPage categoryKey="rock" />} />
+
+          <Route path="/asphalt" element={<CategoryPage categoryKey="asphalt" />} />
+
+          <Route path="/concrete" element={<CategoryPage categoryKey="concrete" />} />
+
+          <Route path="/indo-farm-crane" element={<CategoryPage categoryKey="indo_farm_crane" />} />
+
+
+
+          {/* Pages */}
           <Route path="/contact" element={<Contact />} />
 
           <Route path="/locator" element={<Locator />} />
-
-          <Route path="/skid" element={<Skid />} />
-
-          <Route path="/mini" element={<Mini />} />
-
-          <Route path="/compressors" element={<Compressors />} />
-
-          <Route path="/backhoe" element={<BackHoe />} />
-
-          <Route path="/drills" element={<DrillsBits />} />
-
-          <Route path="/rock" element={<RockBeaker />} />
 
           <Route path="/enquiry" element={<Enquiry />} />
 

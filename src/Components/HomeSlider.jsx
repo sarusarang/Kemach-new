@@ -33,23 +33,24 @@ function HomeSlider() {
                         </div>
 
 
-                        <div  className="carousel-item active">
+                        <div className="carousel-item active">
                             <img src="./Baner11.jpg" className="d-none w-100 d-md-block" alt="" />
                             <img src="./mobilebanner1.jpg" className="d-block w-100 d-md-none" alt="" />
                             <div className="carousel-caption d-block fade-up ">
-                            {/* <div class="animated-background"></div>  */}
-                            <h4 class="animated-text2 text-black fw-bolder">When the ground needs moving,
-                                we’ve got the power to get it done</h4>
+                                {/* <div class="animated-background"></div>  */}
+                                <h4 class="animated-text-new text-white fw-bolder">When the ground needs moving,
+                                    we’ve got the power to get it done</h4>
                             </div>
                         </div>
+
 
                         <div className="carousel-item">
                             <img src="./Baner21.jpg" className="d-none w-100 d-md-block" alt="" />
                             <img src="./mobilebanner2.jpg" className="d-block w-100 d-md-none" alt="" />
                             <div className="carousel-caption d-block fade-up">
-                            {/* <div class="animated-background"></div> */}
-                                <h4 class="animated-text2 bbb text-black fw-bolder">Transform your worksite with
-                                force of our heavy-duty machines</h4>
+                                {/* <div class="animated-background"></div> */}
+                                <h4 class="animated-text-new text-white fw-bolder">Transform your worksite with
+                                    force of our heavy-duty machines</h4>
                             </div>
                         </div>
 
@@ -58,9 +59,9 @@ function HomeSlider() {
                             <img src="./Baner3.jpg" className="d-none w-100 d-md-block" alt="" />
                             <img src="./mobilebanner3.jpg" className="d-block w-100 d-md-none" alt="" />
                             <div className="carousel-caption d-block fade-up">
-                            {/* <div class="animated-background"></div> */}
-                                <h4 class="animated-text2 text-black fw-bolder">Power and precision in every move,
-                                heavy equipment for your next big project</h4>
+                                {/* <div class="animated-background"></div> */}
+                                <h4 class="animated-text-new text-white fw-bolder">Power and precision in every move,
+                                    heavy equipment for your next big project</h4>
                             </div>
                         </div>
 
@@ -69,18 +70,20 @@ function HomeSlider() {
                             <img src="./Baner4.jpg" className="d-none w-100 d-md-block" alt="" />
                             <img src="./mobilebanner4.jpg" className="d-block w-100 d-md-none" alt="" />
                             <div className="carousel-caption d-block fade-up">
-                            {/* <div class="animated-background"></div> */}
-                                <h4 class="animated-text2 text-black fw-bolder">Paving the way to progress with
+                                {/* <div class="animated-background"></div> */}
+                                <h4 class="animated-text-new text-white fw-bolder">Paving the way to progress with
                                     industry-leading technology</h4>
                             </div>
                         </div>
+
+
                         <div className="carousel-item">
                             <img src="./baner5.jpg" className="d-none w-100 d-md-block" alt="" />
                             <img src="./mobilebanner5.jpg" className="d-block w-100 d-md-none" alt="" />
                             <div className="carousel-caption d-block fade-up">
-                            {/* <div class="animated-background"></div> */}
-                                <h4 class="animated-text2 text-black fw-bolder">When power meets precision,
-                                heavy-duty heroes have landed</h4>
+                                {/* <div class="animated-background"></div> */}
+                                <h4 class="animated-text-new text-white fw-bolder">When power meets precision,
+                                    heavy-duty heroes have landed</h4>
                             </div>
                         </div>
 
