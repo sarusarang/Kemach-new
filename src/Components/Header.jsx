@@ -1,235 +1,152 @@
-import { useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom'
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Navbar, Nav, Container, NavDropdown, Form, Button } from 'react-bootstrap';
 import SearchProducts from '../Hooks/Search';
 
-
-
-
-
 function Header() {
+    const { updateSearch } = SearchProducts();
+    const navigate = useNavigate();
+    const [expanded, setExpanded] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [activeSubMenu, setActiveSubMenu] = useState(null); // 'bobcat' | 'gainwell' | null
 
-
-
-    const { updateSearch } = SearchProducts()
-
-
-
-    const navbarRef = useRef(null);
-
-
-
-    // Close navbar when clicking outside
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (navbarRef.current && !navbarRef.current.contains(event.target)) {
-                const navbarToggler = document.querySelector('.navbar-toggler');
-                const collapse = document.querySelector('.navbar-collapse');
-                if (collapse.classList.contains('show')) {
-                    navbarToggler.click();
-                }
-            }
-        };
-
-        document.addEventListener('click', handleClickOutside);
-        return () => {
-            document.removeEventListener('click', handleClickOutside);
-        };
-    }, []);
-
-
-
-    // Close navbar on link click
-    const closeNavbarOnLinkClick = () => {
-        const navbarToggler = document.querySelector('.navbar-toggler');
-        const collapse = document.querySelector('.navbar-collapse');
-        if (collapse.classList.contains('show')) {
-            navbarToggler.click();
-        }
+    // Handle Search
+    const handleSearchSubmit = (e) => {
+        e.preventDefault();
+        updateSearch(searchTerm);
+        navigate('/search');
+        setExpanded(false);
     };
 
+    const closeNavbar = () => {
+        setExpanded(false);
+        setActiveSubMenu(null);
+    };
 
-
+    const toggleSubMenu = (menu, e) => {
+        e.preventDefault();
+        e.stopPropagation(); // Stop bubbling to prevent closing the parent dropdown
+        setActiveSubMenu(prev => prev === menu ? null : menu);
+    };
 
     return (
-
-
-
         <>
-
             <header className="top-header sticky-top">
-
-
                 <div className="sub-div container">
-
-
                     <div className="left-side">
-
                         <ul className='mb-0 p-0'>
-
                             <li>
-                                <a href="https://wa.me/+919778412529?text=Hi" target='_blank'><i className="fa-brands fa-square-whatsapp fa-xl"></i>+91 9778412529</a>
+                                <a href="https://wa.me/+919778412529?text=Hi" target='_blank' rel="noreferrer">
+                                    <i className="fa-brands fa-square-whatsapp fa-xl"></i>+91 9778412529
+                                </a>
                             </li>
-
                             <li>
-                                <a href="mailto:info@kemach.in" target='_blank'><i className="fa-solid fa-envelope"></i>info@kemach.in</a>
+                                <a href="mailto:info@kemach.in" target='_blank' rel="noreferrer">
+                                    <i className="fa-solid fa-envelope"></i>info@kemach.in
+                                </a>
                             </li>
-
                         </ul>
-
-
                     </div>
-
-
                     <div className="right-side">
-
                         <ul className="mb-0">
-
-                            <li><a href='https://www.facebook.com/kemachequipmentsin/' target='_blank'><i className="fa-brands fa-facebook"></i></a></li>
-                            <li><a href='https://www.instagram.com/kemachequipment/' target='_blank'><i className="fa-brands fa-instagram"></i></a></li>
-                            <li><a href='https://x.com/kemachequipmen' target='_blank'><i className="fa-brands fa-x-twitter"></i></a></li>
-                            <li><a href='https://www.linkedin.com/company/kemachequipments/?viewAsMember=true' target='_blank'><i className="fa-brands fa-linkedin"></i></a></li>
-                            <li><a href='https://www.youtube.com/@Kemachequipments' target='_blank'><i className="fa-brands fa-youtube"></i></a></li>
-                            <li><a href='https://in.pinterest.com/kemachequipments/' target='_blank'><i className="fa-brands fa-pinterest"></i></a></li>
-
+                            <li><a href='https://www.facebook.com/kemachequipmentsin/' target='_blank' rel="noreferrer"><i className="fa-brands fa-facebook"></i></a></li>
+                            <li><a href='https://www.instagram.com/kemachequipment/' target='_blank' rel="noreferrer"><i className="fa-brands fa-instagram"></i></a></li>
+                            <li><a href='https://x.com/kemachequipmen' target='_blank' rel="noreferrer"><i className="fa-brands fa-x-twitter"></i></a></li>
+                            <li><a href='https://www.linkedin.com/company/kemachequipments/?viewAsMember=true' target='_blank' rel="noreferrer"><i className="fa-brands fa-linkedin"></i></a></li>
+                            <li><a href='https://www.youtube.com/@Kemachequipments' target='_blank' rel="noreferrer"><i className="fa-brands fa-youtube"></i></a></li>
+                            <li><a href='https://in.pinterest.com/kemachequipments/' target='_blank' rel="noreferrer"><i className="fa-brands fa-pinterest"></i></a></li>
                         </ul>
-
                     </div>
-
-
                 </div>
 
-
-
-                <nav className="navbar navbar-expand-lg navbar-dark sticky-top" ref={navbarRef}>
-
-
-                    <div className="container">
-
-
-                        <Link className="navbar-brand" to={'/'}>
+                <Navbar
+                    expand="lg"
+                    variant="dark"
+                    sticky="top"
+                    expanded={expanded}
+                    onToggle={(expanded) => setExpanded(expanded)}
+                    className="navbar-custom"
+                >
+                    <Container>
+                        <Navbar.Brand as={Link} to="/" onClick={closeNavbar}>
                             <img src="/KEMACH LOGO web-01.png" width="200" alt='img-logo' />
-                        </Link>
+                        </Navbar.Brand>
 
+                        <Navbar.Toggle aria-controls="navbar-nav" />
 
-                        <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                            <span className="navbar-toggler-icon"></span>
-                        </button>
+                        <Navbar.Collapse id="navbar-nav">
+                            <Nav className="mx-auto mb-2 mb-lg-0">
+                                <Nav.Link as={Link} to="/" onClick={closeNavbar}>Home</Nav.Link>
 
+                                <NavDropdown title="Products & Services" id="products-dropdown">
 
-                        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                                    {/* Bobcat Nested Menu */}
+                                    <div className="dropend">
+                                        <div
+                                            className={`dropdown-item dropdown-toggle ${activeSubMenu === 'bobcat' ? 'active-header' : ''}`}
+                                            onClick={(e) => toggleSubMenu('bobcat', e)}
+                                            role="button"
+                                        >
+                                            Bobcat
+                                        </div>
+                                        <div
+                                            className={`dropdown-menu ${activeSubMenu === 'bobcat' ? 'show-mobile' : ''}`}
+                                        >
+                                            <NavDropdown.Item as={Link} to="/skid" onClick={closeNavbar}>Skid-Steer Loaders</NavDropdown.Item>
+                                            <NavDropdown.Item as={Link} to="/mini" onClick={closeNavbar}>Mini Excavators</NavDropdown.Item>
+                                            <NavDropdown.Item as={Link} to="/backhoe" onClick={closeNavbar}>Backhoe Loaders</NavDropdown.Item>
+                                            <NavDropdown.Item as={Link} to="/rock" onClick={closeNavbar}>Rock Breakers</NavDropdown.Item>
+                                            <NavDropdown.Item as={Link} to="/drills" onClick={closeNavbar}>Hydraulic Attachments & Drill Bits</NavDropdown.Item>
+                                            <NavDropdown.Item as={Link} to="/compressors" onClick={closeNavbar}>Electric Compressors</NavDropdown.Item>
+                                            <NavDropdown.Item as={Link} to="/service" onClick={closeNavbar}>Service & Parts</NavDropdown.Item>
+                                        </div>
+                                    </div>
 
+                                    {/* Gain Well Nested Menu */}
+                                    <div className="dropend">
+                                        <div
+                                            className={`dropdown-item dropdown-toggle ${activeSubMenu === 'gainwell' ? 'active-header' : ''}`}
+                                            onClick={(e) => toggleSubMenu('gainwell', e)}
+                                            role="button"
+                                        >
+                                            Gain Well
+                                        </div>
+                                        <div
+                                            className={`dropdown-menu ${activeSubMenu === 'gainwell' ? 'show-mobile' : ''}`}
+                                        >
+                                            <NavDropdown.Item as={Link} to="/asphalt" onClick={closeNavbar}>Asphalt</NavDropdown.Item>
+                                            <NavDropdown.Item as={Link} to="/concrete" onClick={closeNavbar}>Concrete</NavDropdown.Item>
+                                        </div>
+                                    </div>
 
-                            <ul className="navbar-nav mx-auto mb-2 mb-lg-0">
+                                    <NavDropdown.Item as={Link} to="/indo-farm-crane" onClick={closeNavbar}>Indo Farm Cranes</NavDropdown.Item>
+                                </NavDropdown>
 
+                                <Nav.Link as={Link} to="/locator" onClick={closeNavbar}>Store Location</Nav.Link>
+                                <Nav.Link as={Link} to="/contact" onClick={closeNavbar}>Contact Us</Nav.Link>
+                            </Nav>
 
-                                <li className="nav-item">
-                                    <Link className="nav-link" to={'/'} onClick={closeNavbarOnLinkClick}>Home</Link>
-                                </li>
-
-
-                                <div className="dropdown nav-item">
-
-
-                                    <a className="nav-link dropdown-toggle" role="button" id="dropdownMenuLink"
-                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                        Products & Services
-                                    </a>
-
-
-                                    <ul className="dropdown-menu" aria-labelledby="dropdownMenuLink">
-
-
-                                        {/* Bobcat Brand */}
-                                        <li className="dropend">
-
-                                            <a className="dropdown-item dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                Bobcat
-                                            </a>
-
-                                            <ul className="dropdown-menu">
-                                                <li><Link to={'/skid'} className="dropdown-item" onClick={closeNavbarOnLinkClick}>Skid-Steer Loaders</Link></li>
-                                                <li><Link to={'/mini'} className="dropdown-item" onClick={closeNavbarOnLinkClick}>Mini Excavators</Link></li>
-                                                <li><Link to={'/backhoe'} className="dropdown-item" onClick={closeNavbarOnLinkClick}>Backhoe Loaders</Link></li>
-                                                <li><Link to={'/rock'} className="dropdown-item" onClick={closeNavbarOnLinkClick}>Rock Breakers</Link></li>
-                                                <li><Link to={'/drills'} className="dropdown-item" onClick={closeNavbarOnLinkClick}>Hydraulic Attachments & Drill Bits</Link></li>
-                                                <li><Link to={'/compressors'} className="dropdown-item" onClick={closeNavbarOnLinkClick}>Electric Compressors</Link></li>
-                                                <li><Link to={'/service'} className="dropdown-item" onClick={closeNavbarOnLinkClick}>Service & Parts</Link></li>
-                                            </ul>
-
-                                        </li>
-
-
-                                        {/* Gain Well Brand */}
-                                        <li className="dropend">
-                                            <a className="dropdown-item dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                Gain Well
-                                            </a>
-                                            <ul className="dropdown-menu">
-                                                <li><Link to={'/asphalt'} className="dropdown-item" onClick={closeNavbarOnLinkClick}>Asphalt</Link></li>
-                                                <li><Link to={'/concrete'} className="dropdown-item" onClick={closeNavbarOnLinkClick}>Concrete</Link></li>
-                                            </ul>
-                                        </li>
-
-
-                                        {/* Indo Farm Cranes Brand */}
-                                        <li><Link to={'/indo-farm-crane'} className="dropdown-item" onClick={closeNavbarOnLinkClick}>Indo Farm Cranes</Link></li>
-
-                                    </ul>
-
-
-                                </div>
-
-
-
-                                <li className="nav-item">
-                                    <Link className="nav-link" to={'/locator'} onClick={closeNavbarOnLinkClick}>Store Location</Link>
-                                </li>
-
-
-
-                                <li className="nav-item">
-                                    <Link to={'/contact'} className="nav-link active" onClick={closeNavbarOnLinkClick}>Contact Us</Link>
-                                </li>
-
-
-                            </ul>
-
-
-
-                            <Link to={'/search'}>
-
+                            <Form className="d-flex search-box-container" onSubmit={handleSearchSubmit}>
                                 <div className="search-box">
-                                    <button className="btn-search"><i className="fas fa-search"></i></button>
-                                    <input type="text" className="input-search" onChange={(e) => { updateSearch(e.target.value) }} placeholder="Type to Search..." />
+                                    <button className="btn-search" type="submit"><i className="fas fa-search"></i></button>
+                                    <input
+                                        type="text"
+                                        className="input-search"
+                                        placeholder="Type to Search..."
+                                        value={searchTerm}
+                                        onChange={(e) => {
+                                            setSearchTerm(e.target.value);
+                                            updateSearch(e.target.value); // Keep real-time update if needed
+                                        }}
+                                    />
                                 </div>
-
-                            </Link>
-
-
-                        </div>
-
-
-                    </div>
-
-
-                </nav>
-
-
+                            </Form>
+                        </Navbar.Collapse>
+                    </Container>
+                </Navbar>
             </header>
-
-
-
         </>
-
-
-
-    )
-
-
-
-
+    );
 }
 
-export default Header
+export default Header;
